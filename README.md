@@ -62,7 +62,7 @@ docs/screenshots/ README görselleri
 
 ## Marka notu
 
-Bu çalışma bağımsız bir arayüz prototipidir ve MoneyPay ile resmî bağlantısı bulunmamaktadır. MoneyPay adı, logosu ve ilgili görsel varlıkların hakları kendi sahiplerine aittir. Ticari kullanım öncesinde gerekli marka ve kullanım izinleri alınmalıdır.
+Veyra Support, sentetik veriler kullanan bağımsız bir destek operasyonu prototipidir. Herhangi bir gerçek şirket, ürün veya müşteri verisiyle bağlantılı değildir.
 
 ## Lisans
 

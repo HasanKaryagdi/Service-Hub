@@ -62,7 +62,7 @@ docs/screenshots/ README görselleri
 
 ## Marka notu
 
-Veyra Support, sentetik veriler kullanan bağımsız bir destek operasyonu prototipidir. Herhangi bir gerçek şirket, ürün veya müşteri verisiyle bağlantılı değildir.
+THE Support, sentetik veriler kullanan bağımsız bir destek operasyonu prototipidir. Herhangi bir gerçek şirket, ürün veya müşteri verisiyle bağlantılı değildir.
 
 ## Lisans
 

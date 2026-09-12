@@ -1,69 +1,71 @@
-# Service Integration Hub
+# THE Support Console
 
-Servisleri, API bağlantılarını ve gömülü modülleri tek bir çalışma alanında birleştirmek için hazırlanmış modern bir entegrasyon dashboard prototipi.
+A synthetic customer-support and service-observability console for investigating account journeys, tracing incidents, and running controlled recovery workflows from one operational workspace.
 
-[Canlı demoyu aç](https://northline-support-ops.hsnkrgd.chatgpt.site)
+[Open the live console](https://northline-support-ops.hsnkrgd.chatgpt.site)
 
-![Service Integration Hub dashboard](docs/screenshots/service-integration-hub.png)
+![THE Support Console](docs/screenshots/service-integration-hub.png)
 
-## Öne çıkanlar
+## Capabilities
 
-- Açık ve koyu tema; tercih tarayıcıda saklanır
-- Servis kataloğu ve hızlı arama
-- REST, GraphQL ve webhook bağlantı yüzeyleri
-- Iframe, mikro-frontend ve özel bileşenler için gömülü modül alanı
-- Masaüstü, tablet ve mobil için responsive düzen
-- WCAG AA odaklı kontrast ve klavye erişilebilirliği
-- Lucide outline ikon ailesi
+- 100 internationally named synthetic customer profiles
+- End-to-end authentication, payment, balance, refund, and device-trust event streams
+- Wallet and employee-benefit card assignments, including blocked and unassigned scenarios
+- Daily and weekly service telemetry with event-level request diagnostics
+- Controlled resolution workflows for balance discrepancies, captured funds, security locks, entitlement sync, and pending refunds
+- Persistent light and dark themes
+- Responsive desktop, tablet, and mobile layouts
+- WCAG AA-conscious contrast, keyboard navigation, and Lucide outline icons
 
-## Tasarım sistemi
+## Design system
 
-- Ana renk: `#F36B21`
-- Nötr: `#17181B`
-- Vurgu: `#2D59CF`
-- Başlık: Georgia
-- Gövde: Segoe UI
-- Boşluk sistemi: `8 / 16 / 24 / 32 / 48 / 64 / 96`
+- Primary: Solar Orange `#E84B2C`
+- Neutral: Obsidian `#17181B`
+- Accent: Radar Teal `#31D6B5`
+- Display typeface: Georgia
+- Interface typeface: Segoe UI
+- Spacing scale: `8 / 16 / 24 / 32 / 48 / 64 / 96`
 
-## Teknolojiler
+## Technology
 
 - React 19
 - TypeScript
 - Vinext / Vite
 - Tailwind CSS
 - Lucide React
-- Cloudflare uyumlu worker çıktısı
+- Cloudflare-compatible worker output
 
-## Yerel geliştirme
+## Local development
 
-Node.js `22.13.0` veya üzeri gerekir.
+Node.js `22.13.0` or newer is required.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Üretim kontrolü:
+Production build:
 
 ```bash
 npm run build
 ```
 
-## Proje yapısı
+## Project structure
 
 ```text
 app/
-  page.tsx        Dashboard arayüzü ve tema davranışı
-  globals.css     Tasarım sistemi ve responsive stiller
-public/           Marka ve banner varlıkları
-worker/           Cloudflare uyumlu uygulama girişi
-docs/screenshots/ README görselleri
+  page.tsx        Console interface, data scenarios, and interactions
+  globals.css     Core layout and responsive styles
+  branding.css    THE visual system and light/dark theme treatment
+public/           Brand assets and favicon
+worker/           Cloudflare-compatible application entry point
+docs/screenshots/ Repository preview assets
 ```
 
-## Marka notu
+## Data and brand notice
 
-THE Support, sentetik veriler kullanan bağımsız bir destek operasyonu prototipidir. Herhangi bir gerçek şirket, ürün veya müşteri verisiyle bağlantılı değildir.
+THE Support Console is an independent prototype built entirely with synthetic data. It is not connected to any real company, product, customer, or production service.
 
-## Lisans
+## License
 
-Bu repository portföy ve prototipleme amacıyla paylaşılmıştır.
+This repository is shared for portfolio and prototyping purposes.

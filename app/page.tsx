@@ -1,60 +1,47 @@
 "use client";
+import { useEffect, useMemo, useState } from "react";
+import { Activity, AlertTriangle, AppWindow, Bell, CheckCircle2, ChevronRight, CircleHelp, Clock3, Copy, CreditCard, LayoutDashboard, Moon, RefreshCw, Search, Settings, ShieldCheck, Smartphone, Sun, UserRoundSearch, WalletCards, Wrench, Zap } from "lucide-react";
 
-import { useEffect, useState } from "react";
-import { AppWindow, Blocks, BookOpen, ChevronRight, CircleHelp, Command, CreditCard, Database, ExternalLink, LayoutGrid, Moon, PlugZap, Search, Settings, ShieldCheck, Sun, WalletCards, Webhook } from "lucide-react";
-
-const services = [
-  { name:"Ödeme servisleri", detail:"POS, link ve tahsilat bileşenleri", icon:CreditCard, tone:"orange" },
-  { name:"Kimlik & güvenlik", detail:"Oturum, yetki ve doğrulama servisleri", icon:ShieldCheck, tone:"blue" },
-  { name:"Veri servisleri", detail:"Raporlama ve veri kaynağı bağlantıları", icon:Database, tone:"mint" },
-  { name:"Webhook merkezi", detail:"Olay dinleyicileri ve geri çağrılar", icon:Webhook, tone:"rose" },
+type Health = "healthy" | "degraded" | "down";
+const services: Array<{id:string;name:string;group:string;health:Health;uptime:string;latency:string;note:string;icon:typeof WalletCards}> = [
+ {id:"wallet",name:"Money Cüzdan",group:"BAKİYE & TRANSFER",health:"healthy",uptime:"%99,99",latency:"84 ms",note:"Tüm uçlar yanıt veriyor",icon:WalletCards},
+ {id:"flex",name:"Money ProFlex",group:"YAN HAKLAR",health:"degraded",uptime:"%99,82",latency:"426 ms",note:"Bakiye sorgusu yavaş",icon:CreditCard},
+ {id:"app",name:"Money Uygulaması",group:"MOBİL PLATFORM",health:"healthy",uptime:"%99,97",latency:"112 ms",note:"iOS ve Android kararlı",icon:Smartphone},
+ {id:"identity",name:"Kimlik Servisi",group:"OTURUM & GÜVENLİK",health:"healthy",uptime:"%100",latency:"61 ms",note:"Doğrulama akışı normal",icon:ShieldCheck},
 ];
+const users=[
+ {id:"MP-284019",name:"Ayşe Yılmaz",phone:"+90 532 ••• •• 18",state:"Aktif",wallet:"1.842,50 ₺",flex:"750,00 ₺",device:"iPhone 15 · iOS 18.6",last:"Bugün, 14:32",risk:"Düşük"},
+ {id:"MP-918244",name:"Mehmet Kara",phone:"+90 555 ••• •• 42",state:"Doğrulama bekliyor",wallet:"320,10 ₺",flex:"0,00 ₺",device:"Galaxy S24 · Android 16",last:"Bugün, 13:48",risk:"Orta"},
+ {id:"MP-440127",name:"Selin Demir",phone:"+90 542 ••• •• 07",state:"Aktif",wallet:"4.206,80 ₺",flex:"1.250,00 ₺",device:"Pixel 9 · Android 16",last:"Dün, 21:16",risk:"Düşük"},
+];
+const signals=[
+ {service:"Money ProFlex",title:"Bakiye sorgusunda yüksek gecikme",time:"4 dk önce",level:"warn"},
+ {service:"Money Cüzdan",title:"Transfer işleyicisi normale döndü",time:"18 dk önce",level:"ok"},
+ {service:"Money Uygulaması",title:"Android oturum yenileme kontrolü tamamlandı",time:"41 dk önce",level:"ok"},
+];
+const healthText:Record<Health,string>={healthy:"Sağlıklı",degraded:"Yavaşlama",down:"Kesinti"};
 
 export default function Home(){
-  const [dark,setDark]=useState(false);
-  const [query,setQuery]=useState("");
-  useEffect(()=>{const stored=localStorage.getItem("mp-theme");const value=stored?stored==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;setDark(value);document.documentElement.dataset.theme=value?"dark":"light"},[]);
-  const toggle=()=>setDark(v=>{const next=!v;document.documentElement.dataset.theme=next?"dark":"light";localStorage.setItem("mp-theme",next?"dark":"light");return next});
-  const shown=services.filter(s=>`${s.name} ${s.detail}`.toLocaleLowerCase("tr").includes(query.toLocaleLowerCase("tr")));
-  return <main className="portal">
-    <aside className="sidebar">
-      <a className="brand" href="#top"><img src="/moneypay-logo.svg" alt="MoneyPay"/><span>Service Hub</span></a>
-      <nav aria-label="Ana menü">
-        <p>ÇALIŞMA ALANI</p>
-        <a className="active" href="#top"><LayoutGrid/>Genel bakış</a>
-        <a href="#services"><Blocks/>Servis kataloğu</a>
-        <a href="#embed"><AppWindow/>Gömülü ekranlar</a>
-        <a href="#connections"><PlugZap/>Bağlantılar</a>
-        <p>YÖNETİM</p>
-        <a href="#docs"><BookOpen/>Dokümantasyon</a>
-        <a href="#settings"><Settings/>Ayarlar</a>
-      </nav>
-      <div className="sidebar-note"><Command/><div><strong>Entegrasyon alanı</strong><span>Servis eklemeye hazır</span></div></div>
-    </aside>
-
-    <section className="workspace" id="top">
-      <header className="topbar">
-        <div className="search"><Search/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Servis veya modül ara" aria-label="Servis ara"/></div>
-        <button className="theme-toggle" onClick={toggle} aria-label={dark?"Açık moda geç":"Koyu moda geç"}>{dark?<Sun/>:<Moon/>}<span>{dark?"Açık mod":"Koyu mod"}</span></button>
-        <button className="help"><CircleHelp/></button>
-        <div className="profile"><span>MP</span><div><strong>Platform Ekibi</strong><small>Yönetici</small></div></div>
-      </header>
-
-      <div className="content">
-        <section className="money-banner" aria-label="MoneyPay tanıtım bannerı"><div className="banner-overlay"><span>MoneyPay Service Hub</span><h1>Servisleri tek bir<br/>çalışma alanında birleştirin.</h1><p>Hazır entegrasyon yüzeyleriyle mevcut ürünlerinizi bağlayın, gömülü modülleri ekiplerinize açın.</p><a href="#services">Servis alanlarını incele <ChevronRight/></a></div></section>
-
-        <section className="section-head" id="services"><div><span className="eyebrow">SERVİS MİMARİSİ</span><h2>Bağlantı noktaları hazır.</h2><p>Buradaki yüzeyler gerçek servisler bağlandığında içerik üretir; örnek iş, ticket veya sahte operasyon verisi göstermez.</p></div><button><PlugZap/>Yeni servis alanı</button></section>
-
-        <section className="service-grid">
-          {shown.map(({name,detail,icon:Icon,tone})=><article className="service-card" key={name}><div className={`service-icon ${tone}`}><Icon/></div><div className="service-copy"><h3>{name}</h3><p>{detail}</p></div><span className="waiting">Kurulum bekliyor</span><button aria-label={`${name} yapılandır`}><ChevronRight/></button></article>)}
-          {shown.length===0&&<div className="empty">Bu aramayla eşleşen servis alanı yok.</div>}
-        </section>
-
-        <section className="integration-layout" id="embed">
-          <div className="embed-canvas"><div className="canvas-head"><div><span className="eyebrow">GÖMÜLÜ MODÜL ALANI</span><h2>Servisiniz için boş tuval.</h2></div><span className="ready"><i/>Hazır</span></div><div className="drop-zone"><div className="drop-icon"><AppWindow/></div><h3>Gömülecek modül burada çalışacak</h3><p>Iframe, mikro-frontend veya özel bileşen bağlantısı için bu alan ayrıldı.</p><button><Blocks/>Modül yuvasını yapılandır</button></div></div>
-          <aside className="connection-panel" id="connections"><div className="panel-title"><span><WalletCards/>Bağlantı özeti</span><button><Settings/></button></div><div className="connection-state"><span>0</span><p><strong>Aktif bağlantı yok</strong><small>İlk servisi bağladığınızda burada görünecek.</small></p></div><div className="connector"><div><Webhook/><span><strong>API bağlantısı</strong><small>REST veya GraphQL</small></span></div><ChevronRight/></div><div className="connector"><div><ExternalLink/><span><strong>Harici uygulama</strong><small>Güvenli gömülü görünüm</small></span></div><ChevronRight/></div><a href="#docs">Entegrasyon rehberini aç <ChevronRight/></a></aside>
-        </section>
-      </div>
+ const[dark,setDark]=useState(false),[query,setQuery]=useState(""),[toast,setToast]=useState(""),[refreshing,setRefreshing]=useState(false);
+ const[selected,setSelected]=useState(users[0]);
+ useEffect(()=>{const stored=localStorage.getItem("mp-theme");const value=stored?stored==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;setDark(value);document.documentElement.dataset.theme=value?"dark":"light"},[]);
+ const toggle=()=>setDark(v=>{const next=!v;document.documentElement.dataset.theme=next?"dark":"light";localStorage.setItem("mp-theme",next?"dark":"light");return next});
+ const results=useMemo(()=>query.length<2?[]:users.filter(u=>`${u.name} ${u.id} ${u.phone}`.toLocaleLowerCase("tr").includes(query.toLocaleLowerCase("tr"))),[query]);
+ const notify=(m:string)=>{setToast(m);window.setTimeout(()=>setToast(""),2600)};
+ const refresh=()=>{setRefreshing(true);window.setTimeout(()=>{setRefreshing(false);notify("Servis sinyalleri yenilendi")},900)};
+ return <main className="portal">
+  <aside className="sidebar"><a className="brand" href="#top"><img src="/moneypay-logo.svg" alt="MoneyPay"/><span>Support<br/>Console</span></a><nav aria-label="Ana menü"><p>OPERASYON</p><a className="active" href="#top"><LayoutDashboard/>Genel bakış</a><a href="#services"><Activity/>Servis sağlığı</a><a href="#customer"><UserRoundSearch/>Kullanıcı işlemleri</a><a href="#diagnostics"><Wrench/>Tanı araçları</a><p>SİSTEM</p><a href="#notifications"><Bell/>Bildirim kuralları</a><a href="#settings"><Settings/>Ayarlar</a></nav><div className="environment"><i/><div><strong>Test ortamı</strong><span>Demo veri · API bağlı değil</span></div></div></aside>
+  <section className="workspace" id="top"><header className="topbar"><div className="global-search"><Search/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Müşteri no, telefon veya ad ile ara" aria-label="Kullanıcı ara"/>{results.length>0&&<div className="search-results">{results.map(u=><button key={u.id} onClick={()=>{setSelected(u);setQuery("");document.querySelector("#customer")?.scrollIntoView()}}><span>{u.name}<small>{u.id} · {u.phone}</small></span><ChevronRight/></button>)}</div>}</div><button className="refresh" onClick={refresh}><RefreshCw className={refreshing?"spinning":""}/><span>Yenile</span></button><button className="theme-toggle" onClick={toggle} aria-label={dark?"Açık moda geç":"Koyu moda geç"}>{dark?<Sun/>:<Moon/>}</button><button className="help" aria-label="Yardım"><CircleHelp/></button><div className="profile"><span>HK</span><div><strong>Hasan Karyağdı</strong><small>Support Admin</small></div></div></header>
+   <div className="content"><section className="page-head"><div><div className="title-row"><h1>Support kontrol merkezi</h1><span className="demo-badge">DEMO VERİ</span></div><p>Cüzdan, ProFlex ve mobil uygulama servislerini izleyin; kullanıcı sorunlarını tek ekrandan teşhis edin.</p></div><div className="live-status"><span><i/>3 servis sağlıklı</span><strong>Son kontrol 14:36:08</strong></div></section>
+    <section className="service-strip" id="services">{services.map(({id,name,group,health,uptime,latency,note,icon:Icon})=><article className={`service ${health}`} key={id}><div className="service-top"><span className="service-icon"><Icon/></span><span className={`health ${health}`}><i/>{healthText[health]}</span></div><small>{group}</small><h2>{name}</h2><p>{note}</p><div className="service-metrics"><span><small>UPTIME</small><strong>{uptime}</strong></span><span><small>YANIT</small><strong>{latency}</strong></span></div></article>)}</section>
+    <section className="main-grid"><div className="customer-panel" id="customer"><div className="panel-head"><div><span className="eyebrow">KULLANICI ÇÖZÜMLEME</span><h2>{selected.name}</h2><p>{selected.id} · {selected.phone}</p></div><span className={`account-state ${selected.state==="Aktif"?"active":"pending"}`}>{selected.state}</span></div>
+     <div className="customer-summary"><div><span>Cüzdan bakiyesi</span><strong>{selected.wallet}</strong><small>Kullanılabilir bakiye</small></div><div><span>ProFlex bakiyesi</span><strong>{selected.flex}</strong><small>Kurumsal yan hak</small></div><div><span>Son oturum</span><strong>{selected.last}</strong><small>{selected.device}</small></div><div><span>Risk seviyesi</span><strong>{selected.risk}</strong><small>Otomatik değerlendirme</small></div></div>
+     <div className="diagnostic-head" id="diagnostics"><div><h3>Hızlı tanı</h3><p>En sık ihtiyaç duyulan kontrollü support aksiyonları.</p></div><span>İşlemler onay kaydına yazılır</span></div>
+     <div className="action-grid"><button onClick={()=>notify("Oturum kontrolü tamamlandı: sorun bulunamadı")}><span><RefreshCw/></span><div><strong>Oturumu kontrol et</strong><small>Token ve cihaz oturumlarını doğrula</small></div><ChevronRight/></button><button onClick={()=>notify("Bakiye karşılaştırması tamamlandı")}><span><WalletCards/></span><div><strong>Bakiyeyi doğrula</strong><small>Ledger ve görüntülenen bakiyeyi karşılaştır</small></div><ChevronRight/></button><button onClick={()=>notify("ProFlex hakları yeniden senkronize edildi")}><span><CreditCard/></span><div><strong>ProFlex senkronizasyonu</strong><small>Atanan hakları yeniden eşitle</small></div><ChevronRight/></button><button onClick={()=>notify("Cihaz bildirimi test kuyruğuna alındı")}><span><Smartphone/></span><div><strong>Uygulama testi gönder</strong><small>Push ve deep-link erişimini denetle</small></div><ChevronRight/></button></div>
+     <div className="transaction-head"><h3>Son işlem izleri</h3><button onClick={()=>notify("İşlem kimliği panoya kopyalandı")}><Copy/>Kimliği kopyala</button></div><div className="trace-table"><div className="table-head"><span>Zaman</span><span>Servis</span><span>İşlem</span><span>Durum</span><span>Süre</span></div><div><span>14:32:11</span><span>Cüzdan</span><strong>Bakiye sorgulama</strong><span className="trace-ok"><CheckCircle2/>Başarılı</span><span>72 ms</span></div><div><span>14:31:58</span><span>ProFlex</span><strong>Hak listesi sorgulama</strong><span className="trace-warn"><AlertTriangle/>Yavaş</span><span>448 ms</span></div><div><span>14:30:04</span><span>Uygulama</span><strong>Oturum yenileme</strong><span className="trace-ok"><CheckCircle2/>Başarılı</span><span>96 ms</span></div></div></div>
+     <aside className="side-rail"><article className="signal-panel"><div className="rail-head"><div><span className="eyebrow">CANLI SİNYALLER</span><h2>Servis akışı</h2></div><Zap/></div>{signals.map(x=><div className="signal" key={x.title}><span className={x.level}>{x.level==="ok"?<CheckCircle2/>:<AlertTriangle/>}</span><div><small>{x.service}</small><strong>{x.title}</strong><time><Clock3/>{x.time}</time></div></div>)}<button onClick={()=>notify("Tüm servis olayları açıldı")}>Tüm olayları görüntüle <ChevronRight/></button></article><article className="runbook"><span className="eyebrow">HIZLI ERİŞİM</span><h2>Support rehberleri</h2><a href="#wallet"><WalletCards/>Cüzdan bakiye uyuşmazlığı<ChevronRight/></a><a href="#flex"><CreditCard/>ProFlex hak görünmüyor<ChevronRight/></a><a href="#app"><AppWindow/>Uygulama oturum sorunu<ChevronRight/></a></article></aside>
     </section>
-  </main>
+   </div>{toast&&<div className="toast" role="status"><CheckCircle2/>{toast}</div>}
+  </section>
+ </main>
 }

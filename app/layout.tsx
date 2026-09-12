@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./support.css";
 import "./api-inspector.css";
+import "./workspaces.css";
 import "./branding.css";
 
 export const metadata: Metadata = { title: "THE Support Console", description: "A unified control surface for service health, customer diagnostics, and support operations.", icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" } };

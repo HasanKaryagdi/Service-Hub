@@ -11,6 +11,7 @@ import "./service-runner.css";
 import "./state-sync.css";
 import "./view-isolation.css";
 import "./branding.css";
+import "./brand-logo.css";
 
 export const metadata: Metadata = { title: "THE Support Console", description: "A unified control surface for service health, customer diagnostics, and support operations.", icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" } };
 export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="tr"><body>{children}</body></html>}

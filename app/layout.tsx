@@ -7,6 +7,7 @@ import "./curl-catalog.css";
 import "./service-minimal.css";
 import "./observability.css";
 import "./complaints.css";
+import "./service-runner.css";
 import "./view-isolation.css";
 import "./branding.css";
 

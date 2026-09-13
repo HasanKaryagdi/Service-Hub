@@ -8,6 +8,7 @@ import "./service-minimal.css";
 import "./observability.css";
 import "./complaints.css";
 import "./service-runner.css";
+import "./state-sync.css";
 import "./view-isolation.css";
 import "./branding.css";
 

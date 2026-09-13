@@ -6,6 +6,51 @@ THE Support Console; destek ekiplerinin sentetik müşteri kayıtlarını incele
 
 [Canlı paneli aç](https://northline-support-ops.hsnkrgd.chatgpt.site)
 
+## Support olarak neyi vurguluyoruz?
+
+Bu panelin odağı yalnızca hatayı göstermek değil, destek uzmanının bir müşteri sorununu baştan sona kanıtlarla inceleyip kontrollü biçimde çözüme ulaştırmasıdır.
+
+Özellikle şu noktaları vurguluyoruz:
+
+- **Tek müşteri görünümü:** Kullanıcının kimliği, cihazı, bakiyesi, kartları, ödemeleri ve servis logları farklı ekranlarda kaybolmadan aynı kayıt altında birleşir.
+- **Kanıta dayalı inceleme:** Destek uzmanı işlem tutarını, hata kodunu, trace ID’yi, servis gecikmesini ve zaman sırasını birlikte görür.
+- **Sorun ile çözümün ayrılması:** Complaint Inbox yalnızca gelen kaydı ve SLA sürecini gösterir; hangi servisin çalıştırılacağına destek uzmanı karar verir.
+- **Kontrollü müdahale:** Service Toolkit içindeki cURL body serbestçe düzenlenebilir; ancak yanlış müşteri veya kayıt üzerinde işlem yapılmasını önlemek için ilişkiler doğrulanır.
+- **Uçtan uca izlenebilirlik:** Başarılı müdahale kullanıcının bakiyesine, kart/hesap durumuna, olay loguna ve şikâyet kaydına birlikte yansır.
+- **Operasyon güvenliği:** Gerçek servislere geçmeden önce aynı akış sentetik sandbox verisi üzerinde denenebilir ve `before/after` sonucu görülebilir.
+
+## Hangi sorunları çözüme kavuşturuyoruz?
+
+| Kullanıcı sorunu | Kontrol edilen kanıt | Uygulanan çözüm | Beklenen sonuç |
+|---|---|---|---|
+| Ödeme başarılı fakat bakiye düşmemiş | Ödeme tutarı, ledger kaydı, Wallet bakiyesi ve trace ID | Ledger kaydını yeniden işleme veya bakiyeyi yeniden hesaplama | Bakiye doğru tutara gelir ve işlem loglanır |
+| İşlem başarısız olmasına rağmen tutar kesilmiş | Orchestrator sonucu, kesilen tutar ve ters işlem durumu | Ters işlem oluşturma | Kesilen tutar Wallet’a iade edilir |
+| İade onaylandığı halde beklemede kalmış | Refund durumu, alacak kaydı ve işlem tutarı | İadeyi yeniden deneme | İade tutarı Wallet bakiyesine aktarılır |
+| Kullanıcı güvenlik nedeniyle bloklanmış | OTP denemeleri, risk sonucu ve hesap durumu | Güvenlik blokesini kaldırma | Hesap yeniden aktif olur |
+| Kart blokeli veya yanlış durumda | Kart tipi, son dört hane ve mevcut durum | `card_status_update` ile Aktif/Pasif/Blokeli güncellemesi | Yeni kart durumu tüm kullanıcı ekranlarına yansır |
+| Benefits bakiyesi görünmüyor | Hak tahsisi, önbellek ve mevcut Benefits bakiyesi | Hakları senkronize etme | Kullanılabilir hak bakiyesi doğru görünür |
+| Oturum veya cihaz doğrulaması başarısız | Oturum logları, cihaz bilgisi, token ve risk kodu | Oturum kontrolü, aktif oturumları sonlandırma veya yeni OTP | Kullanıcı güvenli biçimde yeniden giriş yapabilir |
+
+## Support çözüm akışı
+
+```text
+1. Şikâyeti al
+        ↓
+2. Kullanıcıyı ve SLA süresini doğrula
+        ↓
+3. Olay akışı, ödeme, kart ve servis loglarını incele
+        ↓
+4. Uygulanacak servisi destek uzmanı olarak seç
+        ↓
+5. cURL body içindeki kayıt, müşteri ve işlem alanlarını doğrula
+        ↓
+6. Kontrollü işlemi çalıştır
+        ↓
+7. before/after sonucunu ve yeni kullanıcı logunu kontrol et
+        ↓
+8. Şikâyeti çözüldü durumuna taşı ve denetim izini koru
+```
+
 ## Ana kategoriler
 
 ### 1. Customer Intelligence

@@ -2,6 +2,12 @@
 
 ## 13 Eylül 2026
 
+### Support yaklaşımı
+
+- Panelin temel amacı “hatayı göstermek” yerine “kanıtlarla incelemek, kontrollü müdahale etmek ve sonucu doğrulamak” olarak belgelendi.
+- Ödeme, iade, bakiye, hesap blokesi, kart durumu, Benefits ve oturum sorunları için sorun–kanıt–çözüm–beklenen sonuç tablosu eklendi.
+- Complaint Inbox’tan kullanıcı incelemesine, Service Toolkit müdahalesinden denetim izine uzanan uçtan uca support akışı tanımlandı.
+
 ### Ortak sandbox modeli
 
 - 100 sentetik kullanıcının kart, bakiye, hesap ve olay bilgileri ortak duruma bağlandı.

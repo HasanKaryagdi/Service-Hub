@@ -7,6 +7,7 @@ import "./curl-catalog.css";
 import "./service-minimal.css";
 import "./observability.css";
 import "./complaints.css";
+import "./view-isolation.css";
 import "./branding.css";
 
 export const metadata: Metadata = { title: "THE Support Console", description: "A unified control surface for service health, customer diagnostics, and support operations.", icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" } };

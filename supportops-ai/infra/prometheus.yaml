@@ -1,7 +1,0 @@
-global:
-  scrape_interval: 15s
-scrape_configs:
-  - job_name: supportops
-    metrics_path: /actuator/prometheus
-    static_configs:
-      - targets: [api:8080, payment-service:8080, wallet-service:8080, transaction-service:8080, rebate-service:8080]

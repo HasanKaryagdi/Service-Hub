@@ -1,5 +1,15 @@
 # THE Support Console
 
+## SupportOps AI — Incident Investigation Platform
+
+Bu depo artık iki ayrı uygulama içerir. Mevcut Support Console kök klasörde; Java 21 / Spring Boot, Next.js, PostgreSQL ve Kafka kullanan yeni investigation platformu `supportops-ai/` altındadır.
+
+- [SupportOps AI: kurulum ve kullanım](supportops-ai/README.md)
+- [Ne yaptık? Ayrıntılı Türkçe proje açıklaması](supportops-ai/docs/proje-detaylari.md)
+- [Mimari](supportops-ai/docs/architecture.md) · [API](supportops-ai/docs/api.md) · [Test raporu](supportops-ai/docs/verification.md)
+
+SupportOps AI yerel Docker Compose ile çalışır; aşağıdaki mevcut Support Console canlı adresi bu yeni backend platformunu yayınlamaz.
+
 THE Support Console; destek ekiplerinin sentetik müşteri kayıtlarını inceleyebildiği, servis sağlığını takip edebildiği, şikâyet kayıtlarını yönettiği ve kontrollü cURL operasyonları çalıştırabildiği birleşik bir operasyon panelidir.
 
 > Bu proje yalnızca sentetik veriler kullanır. Gerçek müşteri, şirket veya üretim servisiyle bağlantısı yoktur.

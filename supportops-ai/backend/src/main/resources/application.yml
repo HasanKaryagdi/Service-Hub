@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: ${SERVICE_NAME:supportops-api}
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/supportops}
+    username: ${DATABASE_USER:supportops}
+    password: ${DATABASE_PASSWORD:local-app-password}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      timeout: 2s
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+        delivery.timeout.ms: 15000
+        request.timeout.ms: 10000
+        max.block.ms: 10000
+    consumer:
+      group-id: supportops-investigation
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
+server:
+  error:
+    include-message: never
+management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  endpoint:
+    health:
+      show-details: never
+  tracing:
+    enabled: ${TRACING_ENABLED:false}
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: ${OTEL_ENDPOINT:http://localhost:4318/v1/traces}
+supportops:
+  jwt-secret: ${JWT_SECRET:local-only-secret-change-me-at-least-32-bytes-long}
+  seed: ${SEED_ENABLED:true}
+  demo-password: ${DEMO_PASSWORD:SupportOps-local-2026!}
+  readonly:
+    username: ${READONLY_USER:supportops_reader}
+    password: ${READONLY_PASSWORD:local-reader-password}
+  ollama:
+    url: ${OLLAMA_URL:}
+    model: ${OLLAMA_MODEL:llama3.2}
+  simulator:
+    enabled: ${SIMULATOR_ENABLED:false}
+    role: ${SIMULATOR_ROLE:payment}
+    token: ${SIMULATOR_TOKEN:local-simulator-secret}
+    transaction-url: ${TRANSACTION_URL:http://transaction-service:8080}
+    wallet-url: ${WALLET_URL:http://wallet-service:8080}
+    rebate-url: ${REBATE_URL:http://rebate-service:8080}

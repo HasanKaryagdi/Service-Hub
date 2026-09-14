@@ -1,0 +1,9 @@
+**/target/
+**/node_modules/
+**/.next/
+.env
+.tools/
+*.log
+**/tsconfig.tsbuildinfo
+!.env.example
+!frontend/next-env.d.ts
